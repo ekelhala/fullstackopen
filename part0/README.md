@@ -54,9 +54,11 @@ participant server
     activate browser
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     deactivate browser
+
     activate server
     server->>browser: Page HTML
     deactivate server
+
     Note right of browser: HTML document contains links to CSS and JavaScript files which need to be loaded
     activate browser
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
@@ -70,6 +72,7 @@ participant server
     activate server
     server->>browser: spa.js
     deactivate server
+
     Note right of browser: The browser executes loaded JavaScript file spa.js, which requests data from server
     activate browser
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
@@ -78,7 +81,7 @@ participant server
     server->>browser: Notes data in JSON format
     deactivate server
     activate browser
-    Note right of browser: The browser resumes executing spa.js and when data is received, calls redrawNotes() to display the data from server
+    Note right of browser: The browser resumes executing spa.js and when data is received, calls redrawNotes() to display the data from server. Also sets a callback function for the form.
     deactivate browser
     
 ```
@@ -86,3 +89,19 @@ participant server
 ---
 
 ## 0.6
+
+```mermaid
+sequenceDiagram
+participant browser
+participant server
+    Note right of browser: User enters the note text to textbox and presses the "Save"-button to submit the form.
+    Note right of browser: Browser executes the callback function attached to the form, which inserts the new note to a local list and also sends it to the server
+    activate browser
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa data: [{content: "text", date: "2023-01-01"}]
+    deactivate browser
+    activate server
+    Note left of server: Server processes the received JSON data
+    Note left of server: If JSON is valid, respond with HTTP 201, otherwise 400
+    server->>browser: HTTP 201 (Created)
+    deactivate server
+```
