@@ -37,8 +37,12 @@ sequenceDiagram
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     deactivate browser
     activate server
-    server->>browser: Data of data.json
+    server->>browser: JSON data of all notes currently contained in server
     deactivate server
     activate browser
     Note right of browser: Browser continues executing main.js and fills the HTML page with result data of last request
 ```
+
+---
+
+## 0.5
