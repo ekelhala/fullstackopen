@@ -8,7 +8,14 @@ const App = () => {
 
   const addNewName = (event) => {
     event.preventDefault()
-    setPersons(persons.concat([{name: newName}]))
+    const newPerson = {name: newName}
+    if(persons.find(elem => elem.name === newPerson.name)){
+      alert(`${newName} is already in phonebook!`)
+    }
+    else{
+      setPersons(persons.concat([newPerson]))
+    }
+    setNewName('')
   }
   const numbers = persons.map(person => <p key={person.name}>{person.name}</p>)
   return (
@@ -16,7 +23,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addNewName}>
         <div>
-          name: <input onChange={(event) => setNewName(event.target.value)}/>
+          name: <input value={newName} onChange={(event) => setNewName(event.target.value)}/>
         </div>
         <div>
           <button type="submit">add</button>
