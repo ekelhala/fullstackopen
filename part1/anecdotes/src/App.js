@@ -13,11 +13,28 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Uint8Array(8))
+
+  const vote = () => {
+    const newVotes = [...votes]
+    newVotes[selected] += 1
+    setVotes(newVotes)
+  }
+
+  const getMostVotes = () => {
+      const most = votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc))
+      return most
+  }
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>This anecdote has {votes[selected]} votes</p>
+      <button onClick={() => vote()}>Vote</button>
       <button onClick={() => setSelected(Math.floor(Math.random()*8))}>Next anecdote</button>
+      <h3>The most voted anecdote is</h3>
+      <p>{anecdotes[getMostVotes()]}</p>
+      <h3>With {votes[getMostVotes()]} votes</h3>
     </div>
   )
 }
