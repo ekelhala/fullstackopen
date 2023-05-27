@@ -21,10 +21,7 @@ const App = () => {
     setVotes(newVotes)
   }
 
-  const getMostVotes = () => {
-      const most = votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc))
-      return most
-  }
+  const getMostVotes = () => votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc))
 
   return (
     <div>
