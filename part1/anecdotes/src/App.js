@@ -17,14 +17,16 @@ const App = () => {
 
   const vote = () => {
     const newVotes = [...votes]
-    newVotes[selected] += 1
+    newVotes[selected]++
     setVotes(newVotes)
   }
 
+  //Find the index with largest value from votes array by comparing all elements with previous, start from 0
   const getMostVotes = () => votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc))
 
   return (
     <div>
+      <h2>Random anecdote</h2>
       <p>{anecdotes[selected]}</p>
       <p>This anecdote has {votes[selected]} votes</p>
       <button onClick={() => vote()}>Vote</button>
