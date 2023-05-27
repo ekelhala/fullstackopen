@@ -22,7 +22,7 @@ const App = () => {
   }
 
   //Find the index with largest value from votes array by comparing all elements with previous, start from 0
-  const getMostVotes = () => votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc))
+  const getMostVotes = () => votes.reduce((acc,curr,idx) => (votes[acc]<votes[idx] ? idx : acc),0)
 
   return (
     <div>
