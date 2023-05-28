@@ -24,13 +24,8 @@ const App = () => {
     setNewNumber('')
   }
 
-  const getPersonList = () => {
-    return persons.map(person => {
-      if(person.name.toLowerCase().includes(filterText))
-        return <p key={person.name}>{person.name} {person.number}</p>
-      return null
-    })
-  }
+  const getPersonList = () => persons.map(person =>
+      person.name.toLowerCase().includes(filterText) ? <p key={person.name}>{person.name} {person.number}</p> : null)
 
   return (
     <div>
