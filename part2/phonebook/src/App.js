@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import phonebookService from './services/phonebook'
+
 const Filter = (props) => 
     <div>filter <input value={props.filterText} onChange={(event) => props.setFilterText(event.target.value)}/></div>
 
@@ -14,6 +16,7 @@ const NewPersonForm = (props) => {
     }
     else{
       props.setPersons(props.persons.concat([newPerson]))
+      phonebookService.send(newPerson)
     }
     props.setNewName('')
     props.setNewNumber('')
