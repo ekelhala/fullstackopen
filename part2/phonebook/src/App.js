@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-
 import phonebookService from './services/phonebook'
 
 const Filter = (props) => 
@@ -79,9 +77,9 @@ const App = () => {
   const [filterText, setFilterText] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons')
-          .then(response => {
-            setPersons(response.data)
+    phonebookService.getAll()
+          .then(personData => {
+            setPersons(personData)
           })
   },[])
 
