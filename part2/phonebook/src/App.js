@@ -1,5 +1,45 @@
 import { useState } from 'react'
 
+const Filter = (props) => 
+    <div>filter <input value={props.filterText} onChange={(event) => props.setFilterText(event.target.value)}/></div>
+
+const NewPersonForm = (props) => {
+
+  const addNewPerson = (event) => {
+    event.preventDefault()
+    const newPerson = {name: props.newName, number: props.newNumber}
+    if(props.persons.find(elem => elem.name === newPerson.name)){
+      alert(`${props.newName} is already in phonebook!`)
+    }
+    else{
+      props.setPersons(props.persons.concat([newPerson]))
+    }
+    props.setNewName('')
+    props.setNewNumber('')
+  }
+
+  return(
+      <form onSubmit={addNewPerson}>
+        <div>
+          name: <input value={props.newName} onChange={(event) => props.setNewName(event.target.value)}/>
+        </div>
+        <div>
+          number: <input value={props.newNumber} onChange={(event) => props.setNewNumber(event.target.value)}/>
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+  )
+}
+
+const PersonsList = (props) => {
+  const getPersonList = () => props.persons.map(person =>
+    person.name.toLowerCase().includes(props.filterText) ? <p key={person.name}>{person.name} {person.number}</p> : null)
+
+  return(<div>{getPersonList()}</div>)
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -11,42 +51,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterText, setFilterText] = useState('')
 
-  const addNewPerson = (event) => {
-    event.preventDefault()
-    const newPerson = {name: newName, number: newNumber}
-    if(persons.find(elem => elem.name === newPerson.name)){
-      alert(`${newName} is already in phonebook!`)
-    }
-    else{
-      setPersons(persons.concat([newPerson]))
-    }
-    setNewName('')
-    setNewNumber('')
-  }
-
-  const getPersonList = () => persons.map(person =>
-      person.name.toLowerCase().includes(filterText) ? <p key={person.name}>{person.name} {person.number}</p> : null)
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter <input value={filterText} onChange={(event) => setFilterText(event.target.value)}/>
-      </div>
-      <form onSubmit={addNewPerson}>
-        <h3>Add new person</h3>
-        <div>
-          name: <input value={newName} onChange={(event) => setNewName(event.target.value)}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter filterText={filterText} setFilterText={setFilterText}/>
+      <h3>Add new person</h3>
+      <NewPersonForm newName={newName} newNumber={newNumber} persons={persons}
+                     setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons}/>
       <h2>Contacts</h2>
-      {getPersonList()}
+      <PersonsList persons={persons} filterText={filterText}/>
     </div>
   )
 
