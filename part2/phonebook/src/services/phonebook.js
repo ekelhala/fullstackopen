@@ -4,4 +4,6 @@ const BASE_URL = 'http://localhost:3001/persons'
 
 const send = withData => axios.post(BASE_URL, withData).then(response => response.data)
 
-export default { send }
+const deleteContact = id => axios.delete(`${BASE_URL}/${id}`).then(response => response.data)
+
+export default { send, deleteContact }

@@ -38,8 +38,24 @@ const NewPersonForm = (props) => {
 }
 
 const PersonsList = (props) => {
-  const getPersonList = () => props.persons.map(person =>
-    person.name.toLowerCase().includes(props.filterText) ? <p key={person.name}>{person.name} {person.number}</p> : null)
+
+  const deletePerson = (id) => {
+    if(window.confirm(`Delete ${props.persons.find(elem => elem.id === id).name}?`)) {
+      const index = props.persons.findIndex(elem => elem.id === id)
+      const newPersons = props.persons.toSpliced(index,1)
+      props.setPersons(newPersons)
+      phonebookService.deleteContact(id)
+    }
+  }
+
+  const getPersonList = () => props.persons.map(person => {
+    if(person.name.toLowerCase().includes(props.filterText)) 
+      return(
+      <div key={person.name}> 
+        <p>{person.name} {person.number} <button onClick={() => deletePerson(person.id)}>Delete</button></p>
+      </div>
+      )
+    return null})
 
   return(<div>{getPersonList()}</div>)
 }
@@ -65,7 +81,7 @@ const App = () => {
       <NewPersonForm newName={newName} newNumber={newNumber} persons={persons}
                      setNewName={setNewName} setNewNumber={setNewNumber} setPersons={setPersons}/>
       <h2>Contacts</h2>
-      <PersonsList persons={persons} filterText={filterText}/>
+      <PersonsList persons={persons} setPersons={setPersons} filterText={filterText}/>
     </div>
   )
 
