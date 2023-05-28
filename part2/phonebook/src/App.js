@@ -11,8 +11,20 @@ const NewPersonForm = (props) => {
   const addNewPerson = (event) => {
     event.preventDefault()
     const newPerson = {name: props.newName, number: props.newNumber}
-    if(props.persons.find(elem => elem.name === newPerson.name)){
-      alert(`${props.newName} is already in phonebook!`)
+    const checkPerson = props.persons.find(person => person.name === newPerson.name)
+    if(checkPerson){
+     if(checkPerson.number !== newPerson.number) {
+      if(window.confirm(`${checkPerson.name} is already in phonebook, do you want to replace the old number with a new one?`)) {
+        newPerson.id = checkPerson.id
+        const removeIndex = props.persons.indexOf(checkPerson)
+        const updatedPersons = props.persons.toSpliced(removeIndex,1,newPerson)
+        props.setPersons(updatedPersons)
+        phonebookService.update(newPerson)
+      }
+     }
+     else {
+      alert(`${checkPerson.name} is already in phonebook!`)
+     } 
     }
     else{
       props.setPersons(props.persons.concat([newPerson]))

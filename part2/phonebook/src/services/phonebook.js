@@ -6,4 +6,6 @@ const send = withData => axios.post(BASE_URL, withData).then(response => respons
 
 const deleteContact = id => axios.delete(`${BASE_URL}/${id}`).then(response => response.data)
 
-export default { send, deleteContact }
+const update = withData => axios.put(`${BASE_URL}/${withData.id}`,withData).then(response => response.data)
+
+export default { send, deleteContact,update }
