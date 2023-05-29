@@ -1,17 +1,17 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import countryService from './services/countryService'
+import getAll from './services/countryService'
 
 import SearchBar from './components/SearchBar'
 import SearchResults from './components/SearchResults'
 
-function App() {
+const App = () => {
   const [countriesList, setCountriesList] = useState([])
   const [searchText, setSearchText] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
   useEffect(() => {
-    countryService.getAll()
+    getAll()
       .then(countryData => setCountriesList(countryData))
   },[])
 
@@ -25,8 +25,7 @@ function App() {
     <div>
       <h3>Search for countries</h3>
       <SearchBar searchText={searchText} searchTermChanged={searchTermChanged}/>
-      <SearchResults countries={countriesList} setSearchText={setSearchText}
-                      searchResults={searchResults} setSearchResults={setSearchResults}/>
+      <SearchResults searchResults={searchResults} setSearchResults={setSearchResults}/>
     </div>
   );
 }

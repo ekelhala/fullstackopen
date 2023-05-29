@@ -5,6 +5,7 @@
     background-color: lightgrey;
     padding-bottom: 20px;
     padding-left: 10px;
+    margin-top: 10px;
 }
 .basic-info-container {
     display: flex;
@@ -14,10 +15,14 @@
 .basic-info-container li {
     list-style-type: none;
 }
-.basic-info-container img {
+.basic-info-container-img {
     width: 200px;
     height: 100px;
 }
 .language-list li {
     list-style-type: disc;
+}
+.weather-icon-img {
+    width: 30px;
+    height: 30px;
 }
