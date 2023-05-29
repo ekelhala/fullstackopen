@@ -5,10 +5,10 @@ const CountryInfo = (props) => {
         return null
     let languageList = []
     let currencies = []
-    for(const [code,language] of Object.entries(props.country.languages)) {
+    for(const [,language] of Object.entries(props.country.languages)) {
         languageList.push(<li key={language}>{language}</li>)
     }
-    for(const [name,currency] of Object.entries(props.country.currencies)) {
+    for(const [,currency] of Object.entries(props.country.currencies)) {
         currencies.push(currency.name)
     }
     const timezones = props.country.timezones.map(tz => ` ${tz}`)

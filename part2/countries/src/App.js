@@ -8,7 +8,6 @@ import SearchResults from './components/SearchResults'
 function App() {
   const [countriesList, setCountriesList] = useState([])
   const [searchText, setSearchText] = useState('')
-  const [showCountry, setShowCountry] = useState(null)
   const [searchResults, setSearchResults] = useState([])
 
   useEffect(() => {
