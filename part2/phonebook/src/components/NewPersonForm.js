@@ -10,10 +10,22 @@ const NewPersonForm = (props) => {
        if(checkPerson.number !== newPerson.number) {
         if(window.confirm(`${checkPerson.name} is already in phonebook, do you want to replace the old number with a new one?`)) {
           newPerson.id = checkPerson.id
-          const removeIndex = props.persons.indexOf(checkPerson)
-          const updatedPersons = props.persons.toSpliced(removeIndex,1,newPerson)
-          props.setPersons(updatedPersons)
           phonebookService.update(newPerson)
+            .then(() => {
+              props.setNotificationMessage(`Changed ${newPerson.name}'s number.`)
+              props.setNotificationType('info')
+              setTimeout(() => props.setNotificationMessage(null),5000)
+              const removeIndex = props.persons.indexOf(checkPerson)
+              const updatedPersons = props.persons.toSpliced(removeIndex,1,newPerson)
+              props.setPersons(updatedPersons)
+            })
+            .catch((error) => {
+              if(error.response.status === 404) {
+                props.setNotificationMessage(`Information of ${newPerson.name} was not found from server`)
+                props.setNotificationType('warning')
+                setTimeout(() => props.setNotificationMessage(null),5000)
+              }
+            })
         }
        }
        else {
@@ -21,8 +33,13 @@ const NewPersonForm = (props) => {
        } 
       }
       else{
-        props.setPersons(props.persons.concat([newPerson]))
         phonebookService.send(newPerson)
+          .then(() => {
+            props.setNotificationMessage(`Added ${newPerson.name} to contacts.`)
+            props.setNotificationType('info')
+            setTimeout(() => props.setNotificationMessage(null),5000)
+            props.setPersons(props.persons.concat([newPerson]))
+          })
       }
       props.setNewName('')
       props.setNewNumber('')

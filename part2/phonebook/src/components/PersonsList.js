@@ -3,11 +3,17 @@ import phonebookService from "../services/phonebook"
 const PersonsList = (props) => {
 
     const deletePerson = (id) => {
-      if(window.confirm(`Delete ${props.persons.find(elem => elem.id === id).name}?`)) {
-        const index = props.persons.findIndex(elem => elem.id === id)
-        const newPersons = props.persons.toSpliced(index,1)
-        props.setPersons(newPersons)
+        const thePerson = props.persons.find(elem => elem.id === id)
+      if(window.confirm(`Delete ${thePerson.name}?`)) {
         phonebookService.deleteContact(id)
+            .then(() => {
+                props.setNotificationMessage(`Deleted ${thePerson.name}`)
+                props.setNotificationType('info')
+                setTimeout(() => props.setNotificationMessage(null), 5000)
+                const index = props.persons.findIndex(elem => elem.id === id)
+                const newPersons = props.persons.toSpliced(index,1)
+                props.setPersons(newPersons)
+            })
       }
     }
   
