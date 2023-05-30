@@ -12,11 +12,8 @@ const CountryInfo = (props) => {
             .then((response) => {
                 setWeather(response)
             })
-    },[])
+    },[props.country.capitalInfo.latlng])
 
-    if(props.country === null){
-        return null
-    }
     let languageList = []
     let currencies = []
     for(const [,language] of Object.entries(props.country.languages)) {

@@ -7,20 +7,21 @@ const SearchResults = (props) => {
     const resultSelected = (index) => {
         props.setSearchResults([props.searchResults[index]])
     }
-
-    let renderElement = null
+    let showElement = null
     if(props.searchResults.length === 1) {
-        renderElement = <CountryInfo country={props.searchResults[0]}/>
+        showElement = <CountryInfo country={props.searchResults[0]}/>
     }
     else if(props.searchResults.length < 10) {
-        renderElement = props.searchResults.map((result,index) => <ResultItem key={index} id={index} text={result.name.common} resultSelected={resultSelected}/>)    
+        showElement = props.searchResults.map((result,index) => 
+                                                    <ResultItem key={index} id={index}
+                                                     text={result.name.common} resultSelected={resultSelected}/>)
     }
     else {
-        renderElement = <p>Please input more characters</p>
+        showElement = <p>Please input more characters</p>
     }
     return(
         <div>
-            {renderElement}
+            {showElement}
         </div>
     )
 }
